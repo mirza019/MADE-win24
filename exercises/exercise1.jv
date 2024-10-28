@@ -1,36 +1,48 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+// This pipeline fetches airport data from a CSV URL,
+// transforms it, and saves it into a SQLite database.
+// Jayvee Version: 0.6.3
+
 pipeline AirportPipeline {
 
+  // Define the pipeline structure
   AirportExtractor
     -> AirportTextFileInterpreter
     -> AirportCSVInterpreter
     -> AirportTableInterpreter
     -> AirportLoader;
 
+  // Block to extract CSV data from the specified URL
   block AirportExtractor oftype HttpExtractor {
     url: "https://opendata.rhein-kreis-neuss.de/api/explore/v2.1/catalog/datasets/rhein-kreis-neuss-flughafen-weltweit/exports/csv?lang=en&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B";
   }
 
+  // Interpret the extracted data as a text file
   block AirportTextFileInterpreter oftype TextFileInterpreter { }
 
+  // Interpret the text file as CSV data, using semicolon as the delimiter
   block AirportCSVInterpreter oftype CSVInterpreter {
     delimiter: ";";
   }
 
+  // Define the table structure and column types,
+  // excluding the specified columns
   block AirportTableInterpreter oftype TableInterpreter {
     header: true;
     columns: [
-      "ID" oftype integer,
-      "Name" oftype text,
-      "Stadt" oftype text,
-      "Land" oftype text,
-      "IATA" oftype text,
-      "ICAO" oftype text,
-      "Breitengrad" oftype decimal,
-      "Laengengrad" oftype decimal,
-      "Hoehe" oftype decimal
+      "ID" oftype BIGINT,
+      "Name" oftype TEXT,
+      "Stadt" oftype TEXT,
+      "Land" oftype TEXT,
+      "IATA" oftype TEXT,
+      "ICAO" oftype TEXT,
+      "Breitengrad" oftype FLOAT,
+      "Laengengrad" oftype FLOAT,
+      "Hoehe" oftype FLOAT
     ];
   }
 
+  // Load the structured data into the SQLite database
   block AirportLoader oftype SQLiteLoader {
     table: "airports";
     file: "./airports.sqlite";
