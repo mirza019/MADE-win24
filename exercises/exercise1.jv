@@ -48,4 +48,4 @@ pipeline AirportDataPipeline {
     }
 }
 
-// Note: We skipped extra columns (like Zeitzone, DST, Zeitzonen-Datenbank, geo_punkt) to keep the data clean and focused.
+// Note: We skipped extra columns like Zeitzone, DST, Zeitzonen-Datenbank, geo_punkt) to keep the data clean and focused.
