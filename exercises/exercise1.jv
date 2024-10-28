@@ -1,0 +1,51 @@
+// This pipeline pulls airport data from a web source, selects key columns,
+// and saves it into a local database called "airports.sqlite".
+
+pipeline AirportDataPipeline {
+    // Set up each stage in the data pipeline, from fetching to saving.
+    FetchData
+        -> ReadAsText
+        -> ParseCSV
+        -> FormatColumns
+        -> SaveToDatabase;
+
+    // Step 1: Fetch the CSV file from the website
+    block FetchData oftype HttpExtractor {
+        url: "https://opendata.rhein-kreis-neuss.de/api/explore/v2.1/catalog/datasets/rhein-kreis-neuss-flughafen-weltweit/exports/csv?lang=en&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B";
+    }
+
+    // Step 2: Read data as plain text
+    block ReadAsText oftype TextFileInterpreter { }
+
+    // Step 3: Parse the text as CSV, using semicolon to separate values
+    block ParseCSV oftype CSVInterpreter {
+        delimiter: ";";
+    }
+
+    // Step 4: Keep only the needed columns and set data types
+    block FormatColumns oftype TableInterpreter {
+        header: true; // Use the first row as column names
+
+        // Columns to keep, with data types
+        // Do not save the following columns: Zeitzone, DST, Zeitzonen-Datenbank, geo_punkt
+        columns: [
+            "Lfd. Nummer" oftype integer, // Unique ID for each airport
+            "Name des Flughafens" oftype text, // Airport name
+            "Ort" oftype text, // City
+            "Land" oftype text, // Country
+            "IATA" oftype text, // IATA airport code
+            "ICAO" oftype text, // ICAO airport code
+            "Latitude" oftype decimal, // Latitude coordinate
+            "Longitude" oftype decimal, // Longitude coordinate
+            "Altitude" oftype integer // Altitude in feet
+        ];
+    }
+
+    // Step 5: Save data to the local SQLite database
+    block SaveToDatabase oftype SQLiteLoader {
+        table: "airports"; // Name of the table in the database
+        file: "./airports.sqlite"; // Database file location
+    }
+}
+
+// Note: We skipped extra columns (like Zeitzone, DST) to keep the data clean and focused.
