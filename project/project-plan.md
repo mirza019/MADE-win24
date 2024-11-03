@@ -89,5 +89,3 @@ This dataset includes details of gun-related deaths across the United States, co
 This document serves as the initial plan for the analysis of gun deaths in the U.S., detailing the project’s scope, objectives, and phased approach. The data pipeline will be continuously refined as new insights emerge from exploratory analysis.
 
 ---
-
-Save this content in `project-plan.md` in the `/project` directory. Let me know if you need additional adjustments!
