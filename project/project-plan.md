@@ -21,28 +21,28 @@ This dataset includes details of gun-related deaths across the United States, co
 ## Work Packages
 
 ### Work Package 1: Data Collection
-- **Issue #1**: Fetch data from the GitHub URL and import it into a pandas DataFrame.
-- **Issue #2**: Document the structure of the dataset, including column descriptions and initial observations.
+- [**Issue #1**](https://github.com/your-repo/issues/1): Fetch data from the GitHub URL and import it into a pandas DataFrame.
+- [**Issue #2**](https://github.com/your-repo/issues/2): Document the structure of the dataset, including column descriptions and initial observations.
 
 ### Work Package 2: Data Cleaning
-- **Issue #3**: Handle missing values, remove duplicates, and standardize data types.
-- **Issue #4**: Validate data accuracy and consistency (e.g., ensure age values are reasonable).
-- **Issue #5**: Create a data dictionary that describes each field and its characteristics.
+- [**Issue #3**](https://github.com/your-repo/issues/3): Handle missing values, remove duplicates, and standardize data types.
+- [**Issue #4**](https://github.com/your-repo/issues/4): Validate data accuracy and consistency (e.g., ensure age values are reasonable).
+- [**Issue #5**](https://github.com/your-repo/issues/5): Create a data dictionary that describes each field and its characteristics.
 
 ### Work Package 3: Exploratory Analysis
-- **Issue #6**: Analyze the distribution of gun deaths by intent (e.g., homicide, suicide).
-- **Issue #7**: Explore demographic trends by age, race, and gender.
-- **Issue #8**: Identify any geographic patterns, such as common locations of incidents.
+- [**Issue #6**](https://github.com/your-repo/issues/6): Analyze the distribution of gun deaths by intent (e.g., homicide, suicide).
+- [**Issue #7**](https://github.com/your-repo/issues/7): Explore demographic trends by age, race, and gender.
+- [**Issue #8**](https://github.com/your-repo/issues/8): Identify any geographic patterns, such as common locations of incidents.
 
 ### Work Package 4: Data Pipeline
-- **Issue #9**: Design a pipeline for data extraction and transformation, with modular cleaning steps.
-- **Issue #10**: Implement database or storage for structured storage of the processed data.
-- **Issue #11**: Automate data ingestion to refresh analysis with updated data as needed.
+- [**Issue #9**](https://github.com/your-repo/issues/9): Design a pipeline for data extraction and transformation, with modular cleaning steps.
+- [**Issue #10**](https://github.com/your-repo/issues/10): Implement database or storage for structured storage of the processed data.
+- [**Issue #11**](https://github.com/your-repo/issues/11): Automate data ingestion to refresh analysis with updated data as needed.
 
 ### Work Package 5: Reporting and Documentation
-- **Issue #12**: Summarize findings and trends in a final report.
-- **Issue #13**: Create visualizations (charts, graphs) to represent data insights.
-- **Issue #14**: Prepare a presentation or summary document.
+- [**Issue #12**](https://github.com/your-repo/issues/12): Summarize findings and trends in a final report.
+- [**Issue #13**](https://github.com/your-repo/issues/13): Create visualizations (charts, graphs) to represent data insights.
+- [**Issue #14**](https://github.com/your-repo/issues/14): Prepare a presentation or summary document.
 
 ## Timeline
 
@@ -89,3 +89,4 @@ This dataset includes details of gun-related deaths across the United States, co
 This document serves as the initial plan for the analysis of gun deaths in the U.S., detailing the project’s scope, objectives, and phased approach. The data pipeline will be continuously refined as new insights emerge from exploratory analysis.
 
 ---
+
