@@ -1,92 +1,85 @@
 # Project Plan
 
 ## Title
-Gun Deaths in America Analysis
+Analyzing Gun Death Demographics and Incident Characteristics in America
 
 ## Main Question
-1. What are the key demographic and circumstantial factors associated with gun deaths in America, and how do they vary by age, race, and intent?
+1. What demographic and circumstantial patterns are associated with gun violence in the U.S., and how do they vary by age, race, intent, and incident characteristics?
 
 ## Description
-Gun violence is a significant public health issue in the United States. This project analyzes a dataset of gun-related deaths provided by FiveThirtyEight to identify trends and correlations between various factors such as age, race, intent (e.g., homicide, suicide), and location. By understanding these patterns, we can gain insights that may support prevention strategies and policy recommendations.
+This project uses two datasets to analyze gun-related deaths in the U.S., with an emphasis on demographic factors (age, race, gender, intent) and incident characteristics (gun type, number of fatalities, and injuries). By combining insights from FiveThirtyEight's gun deaths data and Jamesqo’s incident-level gun violence data, we aim to uncover trends, identify high-risk groups, and explore incident severity across different demographics and situations.
 
 ## Datasources
 
-### Datasource1: FiveThirtyEight Gun Deaths Dataset
-- **Metadata URL**: [FiveThirtyEight Dataset GitHub Repository](https://github.com/fivethirtyeight/guns-data)
-- **Data URL**: [https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv](https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv)
-- **Data Type**: CSV
+### Datasource 1: FiveThirtyEight Gun Deaths Dataset
+- **URL**: [https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv](https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv)
+- **Description**: Contains details on gun-related deaths in the U.S., including demographics (age, race, gender), intent (homicide, suicide, accidental), and place.
+- **Key Columns**: `year`, `month`, `intent`, `age`, `race`, `sex`, `place`, `education`
 
-This dataset includes details of gun-related deaths across the United States, covering demographics (age, race, sex), intent (homicide, suicide, accidental), police involvement, location type, and educational level of victims. It provides a foundation for understanding factors that influence gun violence trends.
+### Datasource 2: Jamesqo Gun Violence Incident Data
+- **URL**: [https://github.com/jamesqo/gun-violence-data/raw/master/DATA_01-2013_03-2018.tar.gz](https://github.com/jamesqo/gun-violence-data/raw/master/DATA_01-2013_03-2018.tar.gz)
+- **Description**: Contains incident-level data on gun violence in the U.S., with information on fatalities, injuries, gun type, and incident characteristics.
+- **Key Columns**: `date`, `state`, `city_or_county`, `n_killed`, `n_injured`, `incident_characteristics`, `gun_type`
 
-## Work Packages and Issues
+## Work Packages
 
 ### Work Package 1: Data Collection
-- [**Issue #1: Data Import**](https://github.com/your-repo/issues/1): Fetch data from the GitHub URL and import it into a pandas DataFrame.
-- [**Issue #2: Data Documentation**](https://github.com/your-repo/issues/2): Document the structure of the dataset, including column descriptions and initial observations.
+- [**Issue #1: Data Import**](https://github.com/your-repo/issues/1): Automate data fetching from GitHub URLs and load them into pandas DataFrames.
+- [**Issue #2: Data Documentation**](https://github.com/your-repo/issues/2): Document the structure of each dataset, including column descriptions and initial observations.
 
 ### Work Package 2: Data Cleaning
-- [**Issue #3: Handle Missing Values**](https://github.com/your-repo/issues/3): Identify and handle missing values, remove duplicates, and standardize data types.
-- [**Issue #4: Data Validation**](https://github.com/your-repo/issues/4): Validate data accuracy and consistency (e.g., ensure age values are reasonable).
-- [**Issue #5: Data Dictionary**](https://github.com/your-repo/issues/5): Create a data dictionary that describes each field and its characteristics.
+- [**Issue #3: Handle Missing Values**](https://github.com/your-repo/issues/3): Identify and handle missing values in key columns.
+- [**Issue #4: Data Type Standardization**](https://github.com/your-repo/issues/4): Standardize data types and formats (e.g., datetime conversion).
+- [**Issue #5: Column Renaming and Selection**](https://github.com/your-repo/issues/5): Clean column names, select relevant columns, and drop unnecessary ones.
 
 ### Work Package 3: Exploratory Analysis
-- [**Issue #6: Intent Analysis**](https://github.com/your-repo/issues/6): Analyze the distribution of gun deaths by intent (e.g., homicide, suicide).
-- [**Issue #7: Demographic Trends**](https://github.com/your-repo/issues/7): Explore demographic trends by age, race, and gender.
-- [**Issue #8: Geographic Patterns**](https://github.com/your-repo/issues/8): Identify any geographic patterns, such as common locations of incidents.
+- [**Issue #6: Intent Patterns by Demographics**](https://github.com/your-repo/issues/6): Analyze patterns in gun death intent by age, race, and gender.
+- [**Issue #7: Seasonal and Monthly Trends**](https://github.com/your-repo/issues/7): Examine monthly trends in gun deaths to identify any seasonal patterns.
+- [**Issue #8: Incident Characteristics and Severity**](https://github.com/your-repo/issues/8): Investigate how characteristics like mass shootings and domestic violence correlate with fatalities.
 
 ### Work Package 4: Data Pipeline
-- [**Issue #9: Pipeline Design**](https://github.com/your-repo/issues/9): Design a data pipeline for data extraction and transformation with modular cleaning steps.
-- [**Issue #10: Storage Setup**](https://github.com/your-repo/issues/10): Implement a database or storage solution for structured storage of the processed data.
-- [**Issue #11: Automate Ingestion**](https://github.com/your-repo/issues/11): Automate data ingestion to refresh analysis with updated data as needed.
+- [**Issue #9: Pipeline Design**](https://github.com/your-repo/issues/9): Create an automated data pipeline for data ingestion, cleaning, and transformation.
+- [**Issue #10: Storage Setup**](https://github.com/your-repo/issues/10): Set up storage solutions for processed data.
+- [**Issue #11: Pipeline Automation**](https://github.com/your-repo/issues/11): Implement automation for regular data refresh and updates.
 
 ### Work Package 5: Reporting and Documentation
-- [**Issue #12: Report Findings**](https://github.com/your-repo/issues/12): Summarize findings and trends in a final report.
-- [**Issue #13: Visualizations**](https://github.com/your-repo/issues/13): Create visualizations (charts, graphs) to represent data insights.
-- [**Issue #14: Presentation Preparation**](https://github.com/your-repo/issues/14): Prepare a presentation or summary document.
+- [**Issue #12: Generate Report**](https://github.com/your-repo/issues/12): Summarize findings, trends, and visualizations in a comprehensive report.
+- [**Issue #13: Create Visualizations**](https://github.com/your-repo/issues/13): Develop charts and graphs to represent data insights.
+- [**Issue #14: Prepare Presentation**](https://github.com/your-repo/issues/14): Create a presentation summarizing the project’s findings.
 
 ## Timeline
 
 | Phase                         | Description                                          | Duration    |
 |-------------------------------|------------------------------------------------------|-------------|
-| **Phase 1: Data Collection**  | Ingest gun deaths data from GitHub                   | 1 week      |
-| **Phase 2: Data Cleaning**    | Clean and preprocess data for consistent analysis    | 2 weeks     |
-| **Phase 3: Exploratory Analysis** | Explore demographic and intent patterns               | 2 weeks     |
-| **Phase 4: Data Pipeline**    | Implement ETL (Extract, Transform, Load) processes   | 3 weeks     |
+| **Phase 1: Data Collection**  | Collect and load data from GitHub sources            | 1 week      |
+| **Phase 2: Data Cleaning**    | Clean and preprocess data                            | 2 weeks     |
+| **Phase 3: Exploratory Analysis** | Explore demographic and incident trends               | 2 weeks     |
+| **Phase 4: Data Pipeline**    | Build ETL pipeline for data processing               | 3 weeks     |
 | **Phase 5: Reporting**        | Document insights and prepare visualizations         | 1 week      |
 
 ## Data Exploration (Prepare for Project Work 3)
 
-### Dataset Overview
-- **Source**: [FiveThirtyEight’s GitHub Repository](https://github.com/fivethirtyeight/guns-data)
-- **URL**: [https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv](https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv)
-- **Columns**:
-  - `year`, `month`: Time of the incident.
-  - `intent`: The intent behind the incident (e.g., homicide, suicide).
-  - `police`: Whether police were involved.
-  - `sex`, `age`, `race`: Demographics of the victim.
-  - `place`: Location type of the incident (e.g., home, street).
-  - `education`: Education level of the victim.
+### Available Data
+- **FiveThirtyEight Dataset**: Provides demographic and intent details on gun-related deaths.
+- **Jamesqo Dataset**: Provides incident-level details, including fatalities, injuries, and characteristics of incidents.
 
-### Data Exploration Tasks
-1. **Load and Describe Data**:
-   - Check the number of records and columns.
-   - Examine data types and ensure that columns like `year` and `month` are in a consistent date format.
-  
-2. **Identify Data Issues**:
-   - Check for missing or inconsistent values, especially in `age`, `race`, and `education`.
-   - Confirm reasonable ranges for numeric columns (e.g., age).
+### Potential Errors
+- Missing data in key fields, such as age and intent.
+- Inconsistencies in date formats between datasets.
+- Differences in terminology between datasets (e.g., variations in incident types).
 
-3. **Assess Data Limitations**:
-   - The dataset is limited to recorded gun deaths, which may not represent all gun-related incidents.
-   - Categories in `intent` may have subjective interpretations.
-   - Coverage by `race` may limit demographic analysis.
+### Data Limitations
+- The absence of `state` in FiveThirtyEight data limits location-specific analysis.
+- The Jamesqo data might lack demographic details, making it harder to merge directly on all fields.
+- Both datasets may not represent all incidents, as they rely on recorded data.
 
-4. **Determine Relevant Data Types**:
-   - Categorical: `intent`, `police`, `sex`, `race`, `place`, `education`.
-   - Numerical: `age`, `year`, `month`.
+### Relevant Data Types
+- **DateTime**: Needed for time-series analysis (e.g., year, month).
+- **Categorical**: For columns like `intent`, `race`, `sex`, `incident_characteristics`.
+- **Numerical**: For counts (e.g., `n_killed`, `n_injured`) and continuous fields like `age`.
 
 ### Summary
-This document serves as the initial plan for the analysis of gun deaths in the U.S., detailing the project’s scope, objectives, and phased approach. The data pipeline will be continuously refined as new insights emerge from exploratory analysis.
+This document outlines the initial plan for analyzing gun-related deaths in the U.S. The data pipeline and analysis will focus on identifying trends in demographics, intent, and incident characteristics. Findings will be compiled in a final report with visualizations to answer the project’s main question.
 
 ---
 
