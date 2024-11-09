@@ -1,3 +1,5 @@
+/data/*.csv
+/data/*.db
 .DS_Store
 /data/*
 !/data/.gitkeep
