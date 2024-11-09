@@ -93,16 +93,3 @@ This project plan outlines a systematic approach to analyzing geographic hotspot
 
 ---
 
-### How to Update the MD file:
-1. Copy the above markdown text.
-2. Navigate to the markdown file in your repository (e.g., `README.md` or another relevant `.md` file).
-3. Open the file using your editor (e.g., `nano`, `vim`, or a graphical editor).
-4. Paste the new content into the file.
-5. Save the file and commit it to Git.
-
-Run the following Git commands to commit and push:
-
-```bash
-git add README.md  # Or the appropriate .md file
-git commit -m "Update project plan and issues after data pipeline work"
-git push origin main
