@@ -13,14 +13,17 @@ This project analyzes gun violence data to identify geographic hotspots for gun 
 ## Datasources
 
 ### Datasource 1: FiveThirtyEight Gun Deaths Dataset
-- **URL**: [https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv](https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv)
-- **Description**: Contains data on gun-related deaths in the U.S., including demographic details (age, race, sex) and incident intent (homicide, suicide, accidental).
-- **Key Columns**: `year`, `month`, `age`, `intent`, `race`, `sex`, `place`
+- **Metadata URL**: [https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/README.md](https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/README.md)  *(or appropriate metadata link if available)*
+- **Data URL**: [https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv](https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv)
+- **Data Type**: CSV
+- **Description**: This dataset contains information on gun-related deaths in the United States, including demographic details like age, race, and sex, as well as the intent of each incident (homicide, suicide, or accidental).
 
 ### Datasource 2: Jamesqo Gun Violence Incident Data
-- **URL**: [https://github.com/jamesqo/gun-violence-data/raw/master/DATA_01-2013_03-2018.tar.gz](https://github.com/jamesqo/gun-violence-data/raw/master/DATA_01-2013_03-2018.tar.gz)
-- **Description**: Provides incident-level data, including the location (state, city), number of fatalities, injuries, and incident date.
-- **Key Columns**: `date`, `state`, `city_or_county`, `n_killed`, `n_injured`
+- **Metadata URL**: [https://github.com/jamesqo/gun-violence-data/blob/master/README.md](https://github.com/jamesqo/gun-violence-data/blob/master/README.md)
+- **Data URL**: [https://github.com/jamesqo/gun-violence-data/raw/master/DATA_01-2013_03-2018.tar.gz](https://github.com/jamesqo/gun-violence-data/raw/master/DATA_01-2013_03-2018.tar.gz)
+- **Data Type**: TAR.GZ (compressed archive containing CSV files)
+- **Description**: This dataset provides incident-level information on gun violence in the U.S. from January 2013 to March 2018, including data about the location (state, city), the number of fatalities, injuries, and the date of the incident.
+
 
 ## Work Packages
 
