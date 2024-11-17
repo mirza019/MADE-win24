@@ -1,0 +1,91 @@
+pipeline ExerciseThreePipeline {
+
+  // Step 1: Download the Excel file from the URL
+  block FetchExcel oftype HttpExtractor {
+    url: "https://thedocs.worldbank.org/en/doc/7d852628d96b9411d43e5d36d5dff941-0050062022/original/Graphs-Chapter-5-02082022.xlsx";
+  }
+
+  // Step 2: Parse the Excel file
+  block ParseExcelFile oftype XLSXInterpreter {}
+
+  // Step 3: Select the sheet with relevant data
+  block PickSheet oftype SheetPicker {
+    sheetName: "Figure S5.1.2";
+  }
+
+  // Step 4: Rename headers to match the requirements
+  block RenameHeaders oftype CellWriter {
+    at: range P2:S2;
+    write: [
+      "Country Code",
+      "Economy",
+      "GDP per Capita",
+      "Bond Issuance Share"
+    ];
+  }
+
+  // Step 5: Select the table data range
+  block ExtractDataRange oftype CellRangeSelector {
+    select: range P2:S45;
+  }
+
+  // GDP per Capita must be positive
+  valuetype PositiveDecimal oftype decimal {
+    constraints: [GreaterThanZero];
+  }
+
+  constraint GreaterThanZero on decimal:
+    value > 0;
+
+  // Bond Issuance Share must be between 0 and 1
+  valuetype ValidRangeDecimal oftype decimal {
+    constraints: [WithinRange];
+  }
+
+  constraint WithinRange on decimal:
+    value >= 0 and value <= 1;
+
+  // Step 6: Interpret Bond Issuance data
+  block ProcessBondData oftype TableInterpreter {
+    header: true;
+    columns: [
+      "Country Code" oftype CountryCodeAlpha3,
+      "Bond Issuance Share" oftype ValidRangeDecimal
+    ];
+  }
+
+  // Step 7: Interpret GDP per Capita data
+  block ProcessGdpData oftype TableInterpreter {
+    header: true;
+    columns: [
+      "Country Code" oftype CountryCodeAlpha3,
+      "GDP per Capita" oftype PositiveDecimal
+    ];
+  }
+
+  // Step 8: Save Bond Issuance data to SQLite
+  block SaveBondData oftype SQLiteLoader {
+    table: "bondIssuance";
+    file: "./country-stats.sqlite";
+  }
+
+  // Step 9: Save GDP per Capita data to SQLite
+  block SaveGdpData oftype SQLiteLoader {
+    table: "gdpPerCapita";
+    file: "./country-stats.sqlite";
+  }
+
+  // Pipeline connections for Bond Issuance Data
+  FetchExcel
+    -> ParseExcelFile
+    -> PickSheet
+    -> RenameHeaders
+    -> ExtractDataRange
+    -> ProcessBondData
+    -> SaveBondData;
+
+  // Pipeline connections for GDP per Capita Data
+  ExtractDataRange
+    -> ProcessGdpData
+    -> SaveGdpData;
+}
