@@ -14,11 +14,18 @@ jamesqo_url = "https://github.com/jamesqo/gun-violence-data/raw/master/DATA_01-2
 data_dir = './data'
 os.makedirs(data_dir, exist_ok=True)
 
-# Function to fetch, clean, and save the FiveThirtyEight dataset
-def load_fivethirtyeight_data(url):
+# =======================================
+# ETL Pipeline for FiveThirtyEight Dataset
+# =======================================
+
+# Extraction: Fetch and load the FiveThirtyEight dataset
+def extract_fivethirtyeight_data(url):
     response = requests.get(url)
     data = pd.read_csv(BytesIO(response.content))
+    return data
 
+# Transformation: Clean and transform the data
+def transform_fivethirtyeight_data(data):
     # Drop rows with missing values in critical columns
     data = data.dropna(subset=['intent', 'age', 'sex', 'race', 'place', 'education'])
 
@@ -35,22 +42,39 @@ def load_fivethirtyeight_data(url):
 
     # Select only the required columns
     data = data[['year', 'month', 'intent', 'police', 'sex', 'age', 'race', 'hispanic', 'place', 'education']]
+    return data
 
-    # Save as SQLite database and CSV file
+# Loading: Save the cleaned data into SQLite and CSV formats
+def load_fivethirtyeight_data(data):
+    # Save as SQLite database
     conn = sqlite3.connect(f'{data_dir}/fivethirtyeight_data.db')
     data.to_sql('fivethirtyeight_data', conn, if_exists='replace', index=False)
     conn.close()
-    data.to_csv(f'{data_dir}/fivethirtyeight_cleaned.csv', index=False)
-    return data
 
-# Function to fetch, extract, clean, and save the Jamesqo dataset
-def load_jamesqo_data(url):
+    # Save as CSV file
+    data.to_csv(f'{data_dir}/fivethirtyeight_cleaned.csv', index=False)
+
+# ETL for FiveThirtyEight dataset
+def etl_fivethirtyeight(url):
+    data = extract_fivethirtyeight_data(url)
+    transformed_data = transform_fivethirtyeight_data(data)
+    load_fivethirtyeight_data(transformed_data)
+
+# =======================================
+# ETL Pipeline for Jamesqo Dataset
+# =======================================
+
+# Extraction: Fetch and extract the Jamesqo dataset
+def extract_jamesqo_data(url):
     response = requests.get(url)
     with tarfile.open(fileobj=BytesIO(response.content), mode='r:gz') as tar:
         csv_file = tar.next()
         if csv_file.isfile():
             data = pd.read_csv(tar.extractfile(csv_file))
+    return data
 
+# Transformation: Clean and transform the data
+def transform_jamesqo_data(data):
     # Drop rows with missing values in critical columns
     data = data.dropna(subset=['date', 'state', 'city_or_county', 'n_killed', 'n_injured'])
 
@@ -72,37 +96,26 @@ def load_jamesqo_data(url):
     data = data[['incident_id', 'date', 'state', 'city_or_county', 'n_killed', 'n_injured',
                  'gun_stolen', 'gun_type', 'incident_characteristics', 'latitude', 'longitude',
                  'n_guns_involved', 'year', 'month']]
+    return data
 
-    # Expand participant columns if they exist
-    for col, attr in [('participant_age_group', 'age_group'),
-                      ('participant_status', 'status'),
-                      ('participant_type', 'type')]:
-        if col in data.columns:
-            expand_participant_column(data, col, attr)
-
-    # Save as SQLite database and CSV file
+# Loading: Save the cleaned data into SQLite and CSV formats
+def load_jamesqo_data(data):
+    # Save as SQLite database
     conn = sqlite3.connect(f'{data_dir}/jamesqo_data.db')
     data.to_sql('jamesqo_data', conn, if_exists='replace', index=False)
     conn.close()
+
+    # Save as CSV file
     data.to_csv(f'{data_dir}/jamesqo_cleaned.csv', index=False)
-    return data
 
-# Helper functions to expand participant columns
-def expand_participant_column(df, column_name, attribute_name):
-    max_participants = df[column_name].apply(lambda x: len(str(x).split("||")) if pd.notnull(x) else 0).max()
-    for i in range(max_participants):
-        col_name = f'participant_{i}_{attribute_name}'
-        df[col_name] = df[column_name].apply(lambda x: extract_participant_attribute(x, i) if pd.notnull(x) else None)
+# ETL for Jamesqo dataset
+def etl_jamesqo(url):
+    data = extract_jamesqo_data(url)
+    transformed_data = transform_jamesqo_data(data)
+    load_jamesqo_data(transformed_data)
 
-def extract_participant_attribute(entry, index):
-    participants = entry.split("||")
-    if index < len(participants):
-        return re.sub(r"^\d+::", "", participants[index])
-    return None
-
-# Load, clean, and save both datasets as SQLite databases and CSV files
-fivethirtyeight_data = load_fivethirtyeight_data(fivethirtyeight_url)
-jamesqo_data = load_jamesqo_data(jamesqo_url)
+# Run ETL processes for both datasets
+etl_fivethirtyeight(fivethirtyeight_url)
+etl_jamesqo(jamesqo_url)
 
 print("Datasets loaded, cleaned, and saved successfully as SQLite databases and CSV files!")
-
