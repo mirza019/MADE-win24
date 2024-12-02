@@ -1,5 +1,5 @@
 pipeline DataProcessPipeline {
-    // first, grab the zip file
+    // kick things off by downloading the zip
     ExtractZipData 
         -> SelectCSVFile
         -> ParseTextData
@@ -13,81 +13,81 @@ pipeline DataProcessPipeline {
         -> ConvertBatteryTempCtoF
         -> StoreDataInDB;
 
-    // download the zip from the link
+    // grabbing the zip from online
     block ExtractZipData oftype GTFSExtractor {
         url: "https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip";
     }
 
-    // pick the right csv from the bunch
+    // finding the right csv inside the zip
     block SelectCSVFile oftype FilePicker {
         path: "/data.csv";
     }
 
-    //  read the csv
+    // let's read what's in the csv
     block ParseTextData oftype TextFileInterpreter {}
 
-    // recreate csv format
+    // time to make sense of the csv format
     block InterpretCSVData oftype CSVInterpreter {
         delimiter: ";";
     }
 
-    // picking columns we need
+    // focusing on the columns we actually care about
     block FilterColumns oftype CellRangeSelector {
         select: range A1:K*;
     }
 
-    // updating the headers 
+    // updating the column headers to something we get
     block RenameHeadersBasic oftype CellWriter {
-        at: range A1:E1; 
-        write: ["id", "producer", "model", "month", "temperature"];
+        at:range A1:E1; 
+        write:["device_id", "manufacturer", "product_model", "observation_month", "ambient_temp_celsius"];
     }
 
-    // updating the battery temp header 
+    // don't forget about the battery temp
     block RenameBatteryTempHeader oftype CellWriter { 
-        at: cell F1; 
-        write: ["battery_temperature"];
+        at:cell J1; 
+        write:["battery_temp_celsius"];
     }
 
-    // getting rid of unnecessary columns 
+    // trimming down to just the columns we need
     block ExcludeExtraColumns oftype ColumnDeleter {
-        delete: [column G, column H, column I, column J, column K];
+        delete: [column F, column G, column H, column I];
     }
 
-    // readuy the for storage
+    // getting everything ready for the database
     block FormatDataForStorage oftype TableInterpreter {
         header: true;
         columns: [
-            "id" oftype integer,
-            "producer" oftype text,
-            "model" oftype text,
-            "month" oftype integer,
-            "temperature" oftype decimal,
-            "battery_temperature" oftype decimal,
+        "device_id" oftype integer,
+        "manufacturer" oftype text,
+        "product_model" oftype text,
+        "observation_month" oftype integer,
+        "ambient_temp_celsius" oftype decimal,
+        "battery_temp_celsius" oftype decimal,
         ];
     }
 
-    // converting celsius to fahrenheit 
+    // converting celsius to fahrenheit because we can
     transform ConvertCelsiusToFahrenheit {
         from TempCelsius oftype decimal;
         to TempFahrenheit oftype decimal;
-        TempFahrenheit: (TempCelsius * 9/5) + 32;
+        TempFahrenheit: (TempCelsius * 9)/5 + 32;
     }
 
     // applying the temp conversion
     block ConvertTempCtoF oftype TableTransformer {
-        inputColumns: ['temperature'];
-        outputColumn: 'temperature';
+        inputColumns: ['ambient_temp_celsius'];
+        outputColumn: 'ambient_temp_fahrenheit';
         uses: ConvertCelsiusToFahrenheit;
     }
 
-  
+    // same goes for the battery temp
     block ConvertBatteryTempCtoF oftype TableTransformer {
-        inputColumns: ['battery_temperature'];
-        outputColumn: 'battery_temperature';
+        inputColumns: ['battery_temp_celsius'];
+        outputColumn: 'battery_temp_fahrenheit';
         uses: ConvertCelsiusToFahrenheit;
     }
 
-    //  save all this data
+    // finally, let's save all this data
     block StoreDataInDB oftype SQLiteLoader {
         table: 'temperatures';
         file: 'temperatures.sqlite';
