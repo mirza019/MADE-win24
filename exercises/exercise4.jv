@@ -1,0 +1,95 @@
+pipeline DataProcessPipeline {
+    // first, grab the zip file
+    ExtractZipData 
+        -> SelectCSVFile
+        -> ParseTextData
+        -> InterpretCSVData
+        -> FilterColumns
+        -> RenameHeadersBasic
+        -> RenameBatteryTempHeader
+        -> ExcludeExtraColumns
+        -> FormatDataForStorage
+        -> ConvertTempCtoF
+        -> ConvertBatteryTempCtoF
+        -> StoreDataInDB;
+
+    // download the zip from the link
+    block ExtractZipData oftype GTFSExtractor {
+        url: "https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip";
+    }
+
+    // pick the right csv from the bunch
+    block SelectCSVFile oftype FilePicker {
+        path: "/data.csv";
+    }
+
+    //  read the csv
+    block ParseTextData oftype TextFileInterpreter {}
+
+    // recreate csv format
+    block InterpretCSVData oftype CSVInterpreter {
+        delimiter: ";";
+    }
+
+    // picking columns we need
+    block FilterColumns oftype CellRangeSelector {
+        select: range A1:K*;
+    }
+
+    // updating the headers 
+    block RenameHeadersBasic oftype CellWriter {
+        at: range A1:E1; 
+        write: ["id", "producer", "model", "month", "temperature"];
+    }
+
+    // updating the battery temp header 
+    block RenameBatteryTempHeader oftype CellWriter { 
+        at: cell F1; 
+        write: ["battery_temperature"];
+    }
+
+    // getting rid of unnecessary columns 
+    block ExcludeExtraColumns oftype ColumnDeleter {
+        delete: [column G, column H, column I, column J, column K];
+    }
+
+    // readuy the for storage
+    block FormatDataForStorage oftype TableInterpreter {
+        header: true;
+        columns: [
+            "id" oftype integer,
+            "producer" oftype text,
+            "model" oftype text,
+            "month" oftype integer,
+            "temperature" oftype decimal,
+            "battery_temperature" oftype decimal,
+        ];
+    }
+
+    // converting celsius to fahrenheit 
+    transform ConvertCelsiusToFahrenheit {
+        from TempCelsius oftype decimal;
+        to TempFahrenheit oftype decimal;
+        TempFahrenheit: 32 + (TempCelsius * 9)/5;
+    }
+
+    // applying the temp conversion
+    block ConvertTempCtoF oftype TableTransformer {
+        inputColumns: ['temperature'];
+        outputColumn: 'temperature';
+        uses: ConvertCelsiusToFahrenheit;
+    }
+
+  
+    block ConvertBatteryTempCtoF oftype TableTransformer {
+        inputColumns: ['battery_temperature'];
+        outputColumn: 'battery_temperature';
+        uses: ConvertCelsiusToFahrenheit;
+    }
+
+    //  save all this data
+    block StoreDataInDB oftype SQLiteLoader {
+        table: 'temperatures';
+        file: 'temperatures.sqlite';
+    }
+}
