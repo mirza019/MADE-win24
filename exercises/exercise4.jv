@@ -70,7 +70,7 @@ pipeline DataProcessPipeline {
     transform ConvertCelsiusToFahrenheit {
         from TempCelsius oftype decimal;
         to TempFahrenheit oftype decimal;
-        TempFahrenheit: 32 + (TempCelsius * 9)/5;
+        TempFahrenheit: 32 + ((TempCelsius * 9)/5);
     }
 
     // applying the temp conversion
