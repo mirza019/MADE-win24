@@ -1,0 +1,40 @@
+name: Continuous Integration (CI)
+
+on:
+  push:
+    branches:
+      - main  # Trigger this action on push to the 'main' branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu environment
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Python 3
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Ensure Python 3 is used. You can specify '3.8' or '3.9' if necessary.
+
+      # Step 3: Install dependencies (e.g., Python libraries)
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt  # Install Python dependencies (adjust if you have specific ones)
+
+      # Step 4: Install system packages (e.g., curl, bash)
+      - name: Install necessary packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl bash
+
+      # Step 5: Make tests.sh executable
+      - name: Make tests.sh executable
+        run: chmod +x ./tests.sh
+
+      # Step 6: Run the tests.sh script
+      - name: Run tests.sh
+        run: ./tests.sh
