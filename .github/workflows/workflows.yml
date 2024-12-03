@@ -4,10 +4,13 @@ on:
   push:
     branches:
       - main  # Trigger this action on push to the 'main' branch
+  pull_request:
+    branches:
+      - main  # Trigger on pull requests to 'main' branch
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu environment
+    runs-on: ubuntu-latest  # Runs the job on an Ubuntu runner
 
     steps:
       # Step 1: Checkout the code
@@ -18,14 +21,14 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # Ensure Python 3 is used. You can specify '3.8' or '3.9' if necessary.
+          python-version: '3.x'  # You can specify 3.8, 3.9, etc., if needed
 
-      # Step 3: Install dependencies (e.g., Python libraries)
+      # Step 3: Install dependencies from the 'project/requirements.txt'
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt  # Install Python dependencies (adjust if you have specific ones)
+          pip install -r project/requirements.txt  # Path to the requirements.txt in the 'project' folder
 
-      # Step 4: Install system packages (e.g., curl, bash)
+      # Step 4: Install necessary system packages (curl, bash, etc.)
       - name: Install necessary packages
         run: |
           sudo apt-get update
