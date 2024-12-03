@@ -36,8 +36,8 @@ jobs:
 
       # Step 5: Make tests.sh executable
       - name: Make tests.sh executable
-        run: chmod +x ./tests.sh
+        run: chmod +x ./project/tests.sh
 
       # Step 6: Run the tests.sh script
       - name: Run tests.sh
-        run: ./tests.sh
+        run: ./project/tests.sh
