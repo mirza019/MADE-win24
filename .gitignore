@@ -3,3 +3,4 @@
 .DS_Store
 /data/*
 !/data/.gitkeep
+**/.ipynb_checkpoints/
