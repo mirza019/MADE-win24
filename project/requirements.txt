@@ -1,5 +1,9 @@
-pandas
-numpy
-requests
-matplotlib
-seaborn
+pandas==2.2.2
+numpy==1.26.4
+requests==2.32.2
+matplotlib==3.8.4
+seaborn==0.13.2
+
+# tarfile and sqlite3 are built-in Python modules:
+# tarfile==Built-in (Python 3.12)
+# sqlite3==Built-in (Python 3.12)
