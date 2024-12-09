@@ -1,8 +1,10 @@
 pipeline GTFSDataPipeline {
 
+  // download data from the specified URL
   DataDownloader
     -> ArchiveProcessor;
 
+  // process the downloaded zip archive
   ArchiveProcessor
     -> FileSelector
     -> TextProcessor
@@ -15,35 +17,35 @@ pipeline GTFSDataPipeline {
   }
 
   block ArchiveProcessor oftype ArchiveInterpreter {
-    archiveType: "zip";
+    archiveType: "zip"; // specify archive type
   }
 
   block FileSelector oftype FilePicker {
-    path: "./stops.txt";
+    path: "./stops.txt"; // pick the required file
   }
 
   block TextProcessor oftype TextFileInterpreter {  
-    encoding: "utf8";
+    encoding: "utf8"; // interpret text with utf8 encoding
   }
 
   block CSVProcessor oftype CSVInterpreter { 
-    delimiter: ",";
-    enclosing: '"';
+    delimiter: ","; // set csv delimiter
+    enclosing: '"'; // set enclosing character
   }
 
   valuetype ZoneIDType oftype integer {
-    constraints: [ ValidZoneId ];
+    constraints: [ ValidZoneId ]; // filter rows with zone_id == 1925
   } 
 
   block TableProcessor oftype TableInterpreter {
-    header: true;
+    header: true; // csv includes a header row
     columns: [
       "stop_id" oftype integer, 
       "stop_name" oftype text, 
       "stop_lat" oftype GeoCoordinatesType,
       "stop_lon" oftype GeoCoordinatesType,
       "zone_id" oftype ZoneIDType
-    ];
+    ]; // define column structure
   }
 
   constraint GeoCoordinatesRange oftype RangeConstraint {
@@ -52,14 +54,15 @@ pipeline GTFSDataPipeline {
     lowerBoundInclusive: true;
     upperBoundInclusive: true;
   }
-  constraint ValidZoneId on integer: value == 1925;
 
   valuetype GeoCoordinatesType oftype decimal {
-    constraints: [GeoCoordinatesRange];
+    constraints: [GeoCoordinatesRange]; // validate geographic coordinates
   }
-  
+
+  constraint ValidZoneId on integer: value == 1925; // filter stops from zone 1925
+
   block SQLiteWriter oftype SQLiteLoader {
-    table: "stops";
-    file: "./gtfs.sqlite";
+    table: "stops"; // specify table name
+    file: "./gtfs.sqlite"; // specify output sqlite file
   }
 }
