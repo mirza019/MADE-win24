@@ -1,7 +1,7 @@
 # Project Plan
 
 ## Title
-Geographic Hotspots and Incident Repetition Analysis of Gun Violence in the United States
+**Geographic Hotspots and Incident Repetition Analysis of Gun Violence in the United States**
 
 ## Main Questions
 1. Which geographic locations in the U.S. experience the highest severity of gun violence incidents?
@@ -23,7 +23,6 @@ This project analyzes gun violence data to identify geographic hotspots for gun 
 - **Data URL**: [https://github.com/jamesqo/gun-violence-data/raw/master/DATA_01-2013_03-2018.tar.gz](https://github.com/jamesqo/gun-violence-data/raw/master/DATA_01-2013_03-2018.tar.gz)
 - **Data Type**: TAR.GZ (compressed archive containing CSV files)
 - **Description**: This dataset provides incident-level information on gun violence in the U.S. from January 2013 to March 2018, including data about the location (state, city), the number of fatalities, injuries, and the date of the incident.
-
 
 ## Work Packages
 
@@ -90,6 +89,3 @@ This project analyzes gun violence data to identify geographic hotspots for gun 
 
 ### Summary
 This project plan outlines a systematic approach to analyzing geographic hotspots and incident repetition in U.S. gun violence data. The project will utilize an ETL pipeline to automate data processing, enabling ongoing monitoring and updates. Findings from this analysis will inform policy recommendations aimed at reducing gun violence in high-risk areas.
-
----
-
