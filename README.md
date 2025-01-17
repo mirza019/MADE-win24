@@ -1,3 +1,26 @@
+**Geographic Hotspots and Incident Repetition Analysis of Gun Violence in the United States**
+
+## Main Questions
+1. Which geographic locations in the U.S. experience the highest severity of gun violence incidents?
+2. Are there repeated incidents over time in these high-risk areas, and do these incidents show patterns of escalation?
+
+## Description
+This project analyzes gun violence data to identify geographic hotspots for gun violence in the U.S. and examines the repetition and potential escalation of incidents over time within these locations. By combining insights from the FiveThirtyEight and Jamesqo datasets, we aim to pinpoint areas that require targeted interventions and explore trends of recurring incidents. This will inform policy recommendations and preventive measures for high-risk regions.
+
+## Datasources
+
+### Datasource 1: FiveThirtyEight Gun Deaths Dataset
+- **Metadata URL**: [https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/README.md](https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/README.md)  *(or appropriate metadata link if available)*
+- **Data URL**: [https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv](https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv)
+- **Data Type**: CSV
+- **Description**: This dataset contains information on gun-related deaths in the United States, including demographic details like age, race, and sex, as well as the intent of each incident (homicide, suicide, or accidental).
+
+### Datasource 2: Jamesqo Gun Violence Incident Data
+- **Metadata URL**: [https://github.com/jamesqo/gun-violence-data/blob/master/README.md](https://github.com/jamesqo/gun-violence-data/blob/master/README.md)
+- **Data URL**: [https://github.com/jamesqo/gun-violence-data/raw/master/DATA_01-2013_03-2018.tar.gz](https://github.com/jamesqo/gun-violence-data/raw/master/DATA_01-2013_03-2018.tar.gz)
+- **Data Type**: TAR.GZ (compressed archive containing CSV files)
+- **Description**: This dataset provides incident-level information on gun violence in the U.S. from January 2013 to March 2018, including data about the location (state, city), the number of fatalities, injuries, and the date of the incident.
+
 # Methods of Advanced Data Engineering Template Project
 
 This template project provides some structure for your open data project in the MADE module at FAU.
