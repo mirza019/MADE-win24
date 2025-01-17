@@ -21,6 +21,9 @@ This project analyzes gun violence data to identify geographic hotspots for gun 
 - **Data Type**: TAR.GZ (compressed archive containing CSV files)
 - **Description**: This dataset provides incident-level information on gun violence in the U.S. from January 2013 to March 2018, including data about the location (state, city), the number of fatalities, injuries, and the date of the incident.
 
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 # Methods of Advanced Data Engineering Template Project
 
 This template project provides some structure for your open data project in the MADE module at FAU.
