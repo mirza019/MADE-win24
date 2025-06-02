@@ -1,4 +1,4 @@
-## Geographic Hotspots and Incident Repetition Analysis of Gun Violence in the United States**
+## **Geographic Hotspots and Incident Repetition Analysis of Gun Violence in the United States**
 
 ## Main Questions
 1. Which geographic locations in the U.S. experience the highest severity of gun violence incidents?
